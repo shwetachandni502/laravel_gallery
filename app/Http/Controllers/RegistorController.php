@@ -168,10 +168,17 @@ class RegistorController extends Controller
             
         }
         else{
-            $request->validate([
+            $validate = $request->validate([
                 'email' => 'required|string|email|max:255',
                 'password' => 'required',
             ]);
+            $validate = Validator::make($request->all(), [
+                'email' => 'required|string|email|max:255',
+                'password' => 'required',
+            ]);
+            if ($validate->fails()) {
+                return response()->json(["errors" => $validate->errors()],401);
+            }
             $project1 = login::where('email',$request->email)->where('password',$request->password)->first();
         if($project1){
             $all['stusts']=1;
@@ -191,16 +198,41 @@ class RegistorController extends Controller
             return response([ 'errors' => [ "dataerorr"=>'please Enter valid user and password']],422);
          }
         }
+
+}
+
+public function logins(Request $request) {
+    try{
+        $validate = Validator::make($request->all(), [
+            'email' => 'required|string|email|max:255',
+            'password' => 'required',
+        ]);
+        if ($validate->fails()) {
+            return response()->json(["errors" => $validate->errors()],401);
+        }
+    } catch(\Exception $th){
+        return response([ 'errors' => 'not data update',$th],422);
+    }
         
-        
-        
+    $request->validate([
+        'email' => 'required|string|email|max:255',
+        'password' => 'required',
+    ]);
+    $project1 = login::where('email',$request->email)->where('password',$request->password)->first();
+    if($project1){
+        $all['stusts']=1;
+        $data=login::where('id',$project1['id'])->update($all);
+        if($data){
+        $project2 = login::where('email',$request->email)->where('password',$request->password)->first();
+    
+// $project1[0]['token']= Str::random(30);
+        $token= Str::random(30);
+        return response(["data"=>$project2,"token"=>$token]);
 
-
-
-
-
-
-
+        } else{
+            return response([ 'errors' => 'not data update'],422);
+        }
+    }
 }
 
 public function logout(Request $request){

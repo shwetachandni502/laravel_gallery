@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\login;
+use App\model\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
@@ -38,7 +39,7 @@ class LoginController extends Controller
         }
         $request['password']=Hash::make($request['password']);
         $request['remember_token'] = Str::random(10);
-        $user =new login;
+        $user =new User;
         $user->name=$request['name'];
         $user->email=$request['email'];
         $user->password=$request['password'];
@@ -65,7 +66,7 @@ class LoginController extends Controller
         }
         $request['password']=Hash::make($request['password']);
         $request['remember_token'] = Str::random(10);
-        $user =new login;
+        $user =new User;
         $user->name=$request['name'];
         $user->email=$request['email'];
         $user->password=$request['password'];
