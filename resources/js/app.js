@@ -8,7 +8,7 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 // import VueRouter from 'vue-router';
-import App from './components/App.vue';
+// import App from './components/App.vue';
 // import Header from './components/Header.vue';
 // import Data from './components/Data.vue';
 import  routes  from './routes';
@@ -31,7 +31,7 @@ Vue.use(BootstrapVue)
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+Vue.component('header-component', require('./components/Header.vue').default);
 // Vue.component('example-data', require('./components/Data.vue').default);
 Vue.component('pagination', require('laravel-vue-pagination'));
 /**
@@ -63,7 +63,6 @@ const app = new Vue({
         }
       )
     },
-    render: h => h(App)
 });
 // const data = new Vue({
 //     el: '#data',

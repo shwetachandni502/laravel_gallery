@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\login;
+use App\model\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
@@ -235,6 +236,33 @@ public function logins(Request $request) {
     }
 }
 
+public function registerUser(Request $request) {
+    $validate = Validator::make($request->all(), [
+        'name' => 'required|string|max:255',
+        'email' => 'required|string|email|max:255|unique:users',
+        'password' => 'required',
+        'repass' => 'required|same:password'
+    ]);
+
+    if ($validate->fails()) {
+        return response()->json(["errors" => $validate->errors()],401);
+    }
+
+    $user =new User();
+    $user->name=$request['name'];
+    $user->email=$request['email'];
+    $user->password=$request['password'];
+    $user->stusts=1;
+    $user->save();
+    if ($user) {
+        $project2 = User::where('email', $request->email)->where('password', $request->password)->first();
+        $token= Str::random(30);
+        return response(["data"=>$project2,"token"=>$token]);
+    } else {
+        return response([ 'status' => 400, 'message' => 'User register error'],422);
+    }
+}
+
 public function logout(Request $request){
    
     $project1 = login::where('email',$request->email)->get();
@@ -315,14 +343,13 @@ public function logout(Request $request){
             // $all['gender']=$request->gender;
             $all['DOB']=$request->DOB;
             $data=login::where('id',$project1->id)->update($all);
-            if($data){
+            if ($data) {
                 $project2 = login::where('email',$request->email)->first();
                 return response(["data"=>$project2],200);
 
-            } else{
+            } else {
                 return response([ 'errors' => [ "dataerorr"=>'not update data']],422);
-        
-                }
+            }
         }
         else{
             return response([ 'errors' => [ "dataerorr"=>'envalid User Email']],422);

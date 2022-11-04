@@ -35,7 +35,7 @@
 
 
 
-    <HelloWorld msg=""/>
+    <!-- <HelloWorld msg=""/> -->
      
 
     
@@ -52,7 +52,7 @@
  
 <script>
 import FileUploadComponent from './FileUploadComponent.vue'
-import HelloWorld from './HelloWorld.vue'
+import HelloWorld from './Header.vue'
 // import Header from './Header.vue';
 // import Data from './Data.vue';
     export default {

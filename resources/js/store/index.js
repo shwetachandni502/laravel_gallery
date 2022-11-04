@@ -40,6 +40,13 @@ export default new Vuex.Store({
             commit('setUserData', data)
           })
       },
+      register ({ commit }, userInfo) {
+        return axios
+          .post('/register', userInfo)
+          .then(({ data }) => {
+            commit('registerData', data)
+          })
+      },
   
       logout ({ commit }) {
         commit('clearUserData')
