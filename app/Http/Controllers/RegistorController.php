@@ -251,8 +251,8 @@ public function registerUser(Request $request) {
     $user =new User();
     $user->name=$request['name'];
     $user->email=$request['email'];
-    $user->password=$request['password'];
-    $user->stusts=1;
+    $user->password= Hash::make($request['password']);
+    $user->status=0;
     $user->save();
     if ($user) {
         $project2 = User::where('email', $request->email)->where('password', $request->password)->first();
@@ -265,13 +265,11 @@ public function registerUser(Request $request) {
 
 public function logout(Request $request){
    
-    $project1 = login::where('email',$request->email)->get();
+    $project1 = User::where('email',$request->email)->get();
     if(!empty($project1)){
         $all['stusts']=0;
-        $data=login::where('id',$project1[0]['id'])->update($all);
+        $data= User::where('id',$project1[0]['id'])->update($all);
             if($data){
-                // $project1[0]['token']= Str::random(30);
-              
                 return response(["data"=>$data]);
 
             } else{

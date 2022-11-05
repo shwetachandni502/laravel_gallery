@@ -25,7 +25,7 @@ Vue.use(Router)
 const routes = [
   { 
     name: 'loginaccount',
-    path: '/loginaccount',
+    path: '/login',
     component: Login,
     meta: { hideForAuth: true }
   },

@@ -44,7 +44,7 @@ export default new Vuex.Store({
         return axios
           .post('/register', userInfo)
           .then(({ data }) => {
-            commit('registerData', data)
+            // commit('registerData', data)
           })
       },
   
